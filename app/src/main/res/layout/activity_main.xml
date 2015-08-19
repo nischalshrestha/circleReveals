@@ -9,13 +9,27 @@
                 android:background="#4C4C42"
                 tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/main_image"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:layout_marginTop="50dp"
+    <io.codetail.widget.RevealFrameLayout
+        android:id="@+id/image_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/kitty"/>
+        >
+        <com.makeramen.roundedimageview.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/main_image"
+            android:layout_width="320dp"
+            android:layout_height="320dp"
+            android:layout_marginTop="50dp"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="25dp"
+            app:riv_border_width="5dp"
+            app:riv_border_color="#F9CB4D"
+            app:riv_oval="true"
+            android:src="@drawable/center_cat"/>
+    </io.codetail.widget.RevealFrameLayout>
 
     <Button
         android:id="@+id/revealButton"
@@ -24,7 +38,7 @@
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:gravity="bottom"
-        android:layout_below="@+id/main_image"
+        android:layout_below="@+id/image_layout"
         android:text="Reveal"
         android:textSize="25sp"/>
 

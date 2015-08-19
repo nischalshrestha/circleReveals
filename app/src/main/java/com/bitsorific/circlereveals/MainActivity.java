@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
@@ -21,6 +22,11 @@ public class MainActivity extends ActionBarActivity {
     private Button revealBtn;
     private Handler handler = new Handler();
 
+    private float startRadius = 0f;
+    private float finalRadius = 0f;
+    private int cx;
+    private int cy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,10 +34,21 @@ public class MainActivity extends ActionBarActivity {
         image = (ImageView) findViewById(R.id.main_image);
         revealBtn = (Button) findViewById(R.id.revealButton);
 
+        image.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                cx = (int)event.getX();
+                cy = (int)event.getY();
+                finalRadius = Math.max(image.getWidth(), image.getHeight());
+                handler.post(revealAnimationRunnable);
+                return false;
+            }
+        });
+
         revealBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handler.post(revealAnimationRunnable);
+                 handler.post(revealAnimationRunnable);
             }
         });
 
@@ -41,52 +58,16 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void run() {
 
-            ImageView view = image;
-            float startRadius = 60f;
-            float finalRadius = Math.max(image.getWidth(), image.getHeight());
+            //Center outwards
+//            ImageView view = image;
+//            float startRadius = 0f;
+//            float finalRadius = Math.max(image.getWidth(), image.getHeight());
+//            int cx = (image.getLeft() + image.getRight()) / 2;
+//            int cy = (image.getTop() + image.getBottom()) / 2;
 
-            int cx = (image.getLeft() + image.getRight()) / 2;
-            int cy = (image.getTop() + image.getBottom()) / 2;
-
-//            Log.d("x", " " + cx);
-//            Log.d("x", " " + cy);
-//            Log.d("x", " " + finalRadius);
-
-
-//            if (effect.equals("Reverse Circle")) {
-//                startRadius = finalRadius - 100f;
-//                finalRadius = 0f;
-//            } else if (effect.equals("Masked Reverse Circle")) {
-//                ifrag.blackLayer.setVisibility(View.VISIBLE);
-//                view = ifrag.blackLayer;
-//                startRadius = finalRadius - 300f;
-//                finalRadius = 0f;
-//            }
-
-            circleReveal = ViewAnimationUtils.createCircularReveal(view, cx, cy, startRadius, finalRadius);
+            circleReveal = ViewAnimationUtils.createCircularReveal(image, cx, cy, startRadius, finalRadius);
             circleReveal.setInterpolator(new AccelerateInterpolator());
-            circleReveal.setDuration(10000);
-//
-//            if (effect.equals("Reverse Circle") || effect.equals("Masked Reverse Circle")){
-//                circleReveal.setInterpolator(new DecelerateInterpolator());
-//                circleReveal.setDuration(15000);
-//            }
-//
-//            // make the black view invisible when the animation is for black reveal
-//            circleReveal.addListener(new SupportAnimator.AnimatorListener() {
-//                @Override
-//                public void onAnimationStart() {}
-//                @Override
-//                public void onAnimationEnd() {
-//                    if(effect.contains("Masked")) {
-//                        ifrag.blackLayer.setVisibility(View.INVISIBLE);
-//                    }
-//                }
-//                @Override
-//                public void onAnimationCancel() {}
-//                @Override
-//                public void onAnimationRepeat() {}
-//            });
+            circleReveal.setDuration(500);
             circleReveal.start();
         }
     };
