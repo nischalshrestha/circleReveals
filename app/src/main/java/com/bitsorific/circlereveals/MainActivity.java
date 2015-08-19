@@ -18,7 +18,14 @@ import io.codetail.animation.ViewAnimationUtils;
 public class MainActivity extends ActionBarActivity {
 
     private ImageView image;
-    private SupportAnimator circleReveal;
+    private ImageView overlay;
+    private ImageView secondOverlay;
+
+
+    private SupportAnimator circleRevealOrange;
+    private SupportAnimator circleRevealGreen;
+    private SupportAnimator circleRevealYellow;
+
     private Button revealBtn;
     private Handler handler = new Handler();
 
@@ -32,6 +39,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         image = (ImageView) findViewById(R.id.main_image);
+        overlay = (ImageView) findViewById(R.id.overlay);
+        secondOverlay = (ImageView) findViewById(R.id.overlay_two);
         revealBtn = (Button) findViewById(R.id.revealButton);
 
         image.setOnTouchListener(new View.OnTouchListener() {
@@ -48,7 +57,11 @@ public class MainActivity extends ActionBarActivity {
         revealBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 handler.post(revealAnimationRunnable);
+                startRadius = 0f;
+                finalRadius = Math.max(image.getWidth(), image.getHeight());
+                cx = (image.getLeft() + image.getRight()) / 2;
+                cy = (image.getTop() + image.getBottom()) / 2;
+                handler.post(revealAnimationRunnable);
             }
         });
 
@@ -58,17 +71,23 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void run() {
 
-            //Center outwards
-//            ImageView view = image;
-//            float startRadius = 0f;
-//            float finalRadius = Math.max(image.getWidth(), image.getHeight());
-//            int cx = (image.getLeft() + image.getRight()) / 2;
-//            int cy = (image.getTop() + image.getBottom()) / 2;
+            //Primary
+            circleRevealOrange = ViewAnimationUtils.createCircularReveal(image, cx, cy, startRadius, finalRadius);
+            circleRevealOrange.setInterpolator(new AccelerateInterpolator());
+            circleRevealOrange.setDuration(1000);
+            circleRevealOrange.start();
 
-            circleReveal = ViewAnimationUtils.createCircularReveal(image, cx, cy, startRadius, finalRadius);
-            circleReveal.setInterpolator(new AccelerateInterpolator());
-            circleReveal.setDuration(500);
-            circleReveal.start();
+            //First ring
+            circleRevealGreen = ViewAnimationUtils.createCircularReveal(overlay, cx, cy, startRadius, finalRadius);
+            circleRevealGreen.setInterpolator(new AccelerateInterpolator());
+            circleRevealGreen.setDuration(500);
+            circleRevealGreen.start();
+
+            //Second ring
+            circleRevealYellow = ViewAnimationUtils.createCircularReveal(secondOverlay, cx, cy, startRadius, finalRadius);
+            circleRevealYellow.setInterpolator(new AccelerateInterpolator());
+            circleRevealYellow.setDuration(800);
+            circleRevealYellow.start();
         }
     };
 

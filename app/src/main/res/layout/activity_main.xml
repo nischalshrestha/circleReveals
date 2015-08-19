@@ -10,10 +10,54 @@
                 tools:context=".MainActivity">
 
     <io.codetail.widget.RevealFrameLayout
-        android:id="@+id/image_layout"
+        android:id="@+id/overlay_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        >
+        <com.makeramen.roundedimageview.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/overlay"
+            android:layout_width="320dp"
+            android:layout_height="320dp"
+            android:layout_marginTop="50dp"
+            app:riv_corner_radius="25dp"
+            app:riv_border_width="5dp"
+            app:riv_border_color="#89c33f"
+            app:riv_oval="true"
+            android:background="@drawable/rounded_bg_green"/>
+        </io.codetail.widget.RevealFrameLayout>
+
+    <io.codetail.widget.RevealFrameLayout
+        android:id="@+id/overlay_two_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/overlay_layout"
+        android:layout_alignRight="@+id/overlay_layout"
+        android:layout_alignBottom="@+id/overlay_layout"
+        android:layout_alignLeft="@+id/overlay_layout"
+        >
+        <com.makeramen.roundedimageview.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/overlay_two"
+            android:layout_width="320dp"
+            android:layout_height="320dp"
+            android:layout_marginTop="50dp"
+            app:riv_corner_radius="25dp"
+            app:riv_border_width="5dp"
+            app:riv_border_color="#FEE043"
+            app:riv_oval="true"
+            android:background="@drawable/rounded_bg_yellow"/>
+    </io.codetail.widget.RevealFrameLayout>
+
+    <io.codetail.widget.RevealFrameLayout
+        android:id="@+id/image_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/overlay_two_layout"
+        android:layout_alignRight="@+id/overlay_two_layout"
+        android:layout_alignBottom="@+id/overlay_two_layout"
+        android:layout_alignLeft="@+id/overlay_two_layout"
         >
         <com.makeramen.roundedimageview.RoundedImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -21,14 +65,13 @@
             android:layout_width="320dp"
             android:layout_height="320dp"
             android:layout_marginTop="50dp"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:scaleType="centerCrop"
             app:riv_corner_radius="25dp"
             app:riv_border_width="5dp"
-            app:riv_border_color="#F9CB4D"
+            app:riv_border_color="#EC855C"
             app:riv_oval="true"
-            android:src="@drawable/center_cat"/>
+            android:background="@drawable/rounded_bg_red"/>
+            <!--android:src="@drawable/center_cat"/>-->
+        <!--android:src="@drawable/center_cat"/>-->
     </io.codetail.widget.RevealFrameLayout>
 
     <Button
