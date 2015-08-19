@@ -4,10 +4,14 @@ This project is just a showcase of some circular reveals in Android I've been ex
 
 Demos:
 
+### Circle
+
 <img src="http://cdn.makeagif.com/media/8-19-2015/2JUjty.gif"/>
 
 <a href="https://www.youtube.com/watch?v=6PDmrsOSoww" target="_blank">Youtube Video<br/> <img src="http://img.youtube.com/vi/6PDmrsOSoww/0.jpg" 
 alt="Circular Reveal demo" border="10" /></a>
+
+### Concentric Rings
 
 <img src="http://cdn.makeagif.com/media/8-19-2015/HuNIpA.gif"/>
 
