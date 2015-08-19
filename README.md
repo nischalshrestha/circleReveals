@@ -1,6 +1,6 @@
 # Circle Reveals
 
-This project is just a showcase of some circular reveals in Android I've been exploring.
+This project is just a showcase of some circular reveals in Android I've been exploring. I plan to make it easier to play with all the effects soon by adding options.
 
 Demos:
 
