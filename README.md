@@ -1,6 +1,6 @@
 # Circle Reveals
 
-This project is just a showcase of some circular reveals in Android I've been exploring. I plan to make it easier to play with all the effects soon by adding options.
+This project is just a showcase of some circular reveals in Android I've been exploring.
 
 ## Demos:
 
@@ -17,3 +17,7 @@ alt="Circular Reveal demo" border="10" /></a>
 
 <a href="https://www.youtube.com/watch?v=gYWVxekPDM0" target="_blank">Youtube Video<br/> <img src="http://img.youtube.com/vi/gYWVxekPDM0/0.jpg"
 alt="Concentric Circles demo" border="10" /></a>
+
+## Future Plan:
+
+I plan to make it easier to play with all the effects soon by adding in a way to select type of animation and tweak parameters like animation speed and timing.
