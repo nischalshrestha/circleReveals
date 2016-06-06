@@ -1,95 +1,95 @@
 package com.bitsorific.circlereveals;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
-import android.widget.ImageView;
-
-import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.ViewAnimationUtils;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    private ImageView image;
-    private ImageView overlay;
-    private ImageView secondOverlay;
-
-
-    private SupportAnimator circleRevealOrange;
-    private SupportAnimator circleRevealGreen;
-    private SupportAnimator circleRevealYellow;
-
+    private View backdrop;
+    private View icon;
     private Button revealBtn;
-    private Handler handler = new Handler();
-
-    private float startRadius = 0f;
-    private float finalRadius = 0f;
-    private int cx;
-    private int cy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        image = (ImageView) findViewById(R.id.main_image);
-        overlay = (ImageView) findViewById(R.id.overlay);
-        secondOverlay = (ImageView) findViewById(R.id.overlay_two);
+        backdrop = findViewById(R.id.like_circle);
+        icon = findViewById(R.id.like_icon);
         revealBtn = (Button) findViewById(R.id.revealButton);
-
-        image.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                cx = (int)event.getX();
-                cy = (int)event.getY();
-                finalRadius = Math.max(image.getWidth(), image.getHeight());
-                handler.post(revealAnimationRunnable);
-                return false;
-            }
-        });
 
         revealBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startRadius = 0f;
-                finalRadius = Math.max(image.getWidth(), image.getHeight());
-                cx = (image.getLeft() + image.getRight()) / 2;
-                cy = (image.getTop() + image.getBottom()) / 2;
-                handler.post(revealAnimationRunnable);
+
+                AnimatorSet set = new AnimatorSet();
+
+                ObjectAnimator scaleUpXAnimator =
+                        new ObjectAnimator().ofFloat(backdrop, View.SCALE_X, 0f, 1f);
+                scaleUpXAnimator.setDuration(100);
+
+                ObjectAnimator scaleUpYAnimator =
+                        new ObjectAnimator().ofFloat(backdrop, View.SCALE_Y, 0f, 1f);
+                scaleUpYAnimator.setDuration(100);
+
+                ObjectAnimator scaleUpXFinalAnimator =
+                        new ObjectAnimator().ofFloat(backdrop, View.SCALE_X, 1f, 4f);
+                scaleUpXFinalAnimator.setDuration(200);
+                scaleUpXFinalAnimator.setStartDelay(800);
+
+                ObjectAnimator scaleUpYFinalAnimator =
+                        new ObjectAnimator().ofFloat(backdrop, View.SCALE_Y, 1f, 4f);
+                scaleUpYFinalAnimator.setDuration(200);
+                scaleUpYFinalAnimator.setStartDelay(800);
+
+                ObjectAnimator fadeInAnimator =
+                        ObjectAnimator.ofFloat(backdrop, View.ALPHA, 0, 1);
+                fadeInAnimator.setDuration(300);
+
+                ObjectAnimator fadeOutAnimator =
+                        ObjectAnimator.ofFloat(backdrop, View.ALPHA, 1, 0);
+                fadeOutAnimator.setDuration(800);
+                fadeOutAnimator.setStartDelay(1200);
+
+                ObjectAnimator fadeInIconAnimator =
+                        ObjectAnimator.ofFloat(icon, View.ALPHA, 0, 1);
+                fadeInIconAnimator.setDuration(300);
+
+                ObjectAnimator fadeOutIconAnimator =
+                        ObjectAnimator.ofFloat(backdrop, View.ALPHA, 1, 0);
+                fadeOutIconAnimator.setDuration(800);
+                fadeOutIconAnimator.setStartDelay(1200);
+
+                set.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        backdrop.setVisibility(View.VISIBLE);
+                        icon.setVisibility(View.VISIBLE);
+                    }
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        backdrop.setVisibility(View.GONE);
+                        icon.setVisibility(View.GONE);
+                    }
+                });
+                set.play(scaleUpXAnimator).with(scaleUpYAnimator).with(fadeInAnimator).with(fadeInIconAnimator)
+                        .before(fadeOutAnimator).with(fadeOutIconAnimator)
+                        .with(scaleUpXFinalAnimator).with(scaleUpYFinalAnimator);
+
+                set.start();
+
             }
         });
 
     }
-
-    private final Runnable revealAnimationRunnable = new Runnable() {
-        @Override
-        public void run() {
-
-            //Primary
-            circleRevealOrange = ViewAnimationUtils.createCircularReveal(image, cx, cy, startRadius, finalRadius);
-            circleRevealOrange.setInterpolator(new AccelerateInterpolator());
-            circleRevealOrange.setDuration(1000);
-            circleRevealOrange.start();
-
-            //First ring
-            circleRevealGreen = ViewAnimationUtils.createCircularReveal(overlay, cx, cy, startRadius, finalRadius);
-            circleRevealGreen.setInterpolator(new AccelerateInterpolator());
-            circleRevealGreen.setDuration(500);
-            circleRevealGreen.start();
-
-            //Second ring
-            circleRevealYellow = ViewAnimationUtils.createCircularReveal(secondOverlay, cx, cy, startRadius, finalRadius);
-            circleRevealYellow.setInterpolator(new AccelerateInterpolator());
-            circleRevealYellow.setDuration(800);
-            circleRevealYellow.start();
-        }
-    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
