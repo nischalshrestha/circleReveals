@@ -83,9 +83,7 @@ public class MainActivity extends ActionBarActivity {
                 set.play(scaleUpXAnimator).with(scaleUpYAnimator).with(fadeInAnimator).with(fadeInIconAnimator)
                         .before(fadeOutAnimator).with(fadeOutIconAnimator)
                         .with(scaleUpXFinalAnimator).with(scaleUpYFinalAnimator);
-
                 set.start();
-
             }
         });
 
